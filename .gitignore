@@ -4,6 +4,7 @@
 # Editor and local tooling
 .idea/
 .vscode/
+.obsidian/
 *.swp
 *.swo
 

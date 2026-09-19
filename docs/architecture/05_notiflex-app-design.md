@@ -97,7 +97,7 @@ Pod: Go HTTP Server
 ```json
 {
   "service": "notiflex-api",
-  "version": "v0.1.0",
+  "version": "v0.1.1",
   "message": "Notiflex API is running"
 }
 ```
@@ -180,7 +180,7 @@ Kubernetes readiness probe용 엔드포인트다.
 | Name | Default | Description |
 |------|---------|-------------|
 | `PORT` | `8080` | HTTP 서버 포트 |
-| `APP_VERSION` | `v0.1.0` | 응답에 표시할 앱 버전 |
+| `APP_VERSION` | `v0.1.1` | 응답에 표시할 앱 버전 |
 
 ### 오류 처리
 
@@ -200,7 +200,7 @@ Dockerfile은 멀티 스테이지 빌드를 사용한다.
 이미지 이름:
 
 ```text
-asia-northeast3-docker.pkg.dev/tim-gitaiops-project/notiflex/notiflex-api:v0.1.0
+asia-northeast3-docker.pkg.dev/tim-gitaiops-project/notiflex/notiflex-api:v0.1.1
 ```
 
 Artifact Registry 저장소:
@@ -227,11 +227,21 @@ notiflex
 | Namespace | `notiflex` |
 | Replicas | `1` |
 | Container port | `8080` |
-| Image | `asia-northeast3-docker.pkg.dev/tim-gitaiops-project/notiflex/notiflex-api:v0.1.0` |
+| Image | `asia-northeast3-docker.pkg.dev/tim-gitaiops-project/notiflex/notiflex-api:v0.1.1` |
 | Liveness probe | `GET /healthz` |
 | Readiness probe | `GET /readyz` |
 
 초기 클러스터 노드는 1개이므로 replica는 1개로 시작한다. 이후 무중단 배포 실습이나 Spot 2노드 재생성 이후 replica를 늘린다.
+
+1노드 클러스터에서는 기본 RollingUpdate의 surge Pod가 스케줄링되지 않을 수 있으므로 초기 전략은 다음처럼 둔다.
+
+```yaml
+strategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxSurge: 0
+    maxUnavailable: 1
+```
 
 ### Service
 
@@ -280,17 +290,17 @@ curl http://localhost:8080/readyz
 ### 3. Docker 이미지 빌드
 
 ```bash
-docker build -t notiflex-api:v0.1.0 ./app
+docker build -t notiflex-api:v0.1.1 ./app
 ```
 
 ### 4. 이미지 태그와 푸시
 
 ```bash
-docker tag notiflex-api:v0.1.0 \
-  asia-northeast3-docker.pkg.dev/tim-gitaiops-project/notiflex/notiflex-api:v0.1.0
+docker tag notiflex-api:v0.1.1 \
+  asia-northeast3-docker.pkg.dev/tim-gitaiops-project/notiflex/notiflex-api:v0.1.1
 
 docker push \
-  asia-northeast3-docker.pkg.dev/tim-gitaiops-project/notiflex/notiflex-api:v0.1.0
+  asia-northeast3-docker.pkg.dev/tim-gitaiops-project/notiflex/notiflex-api:v0.1.1
 ```
 
 ### 5. Kubernetes 배포
@@ -359,7 +369,7 @@ curl -X POST http://localhost:8080/v1/events \
 1. 초기 API 서버는 Go 표준 라이브러리만 사용할까, 아니면 Gin 같은 프레임워크를 사용할까?
 2. `POST /v1/events` 응답의 `eventId`는 단순 생성값으로 충분한가?
 3. 초기 Service는 `ClusterIP + port-forward`로 충분한가?
-4. 컨테이너 이미지 태그는 `v0.1.0`으로 시작해도 괜찮은가?
+4. 컨테이너 이미지 태그는 `v0.1.1`로 진행해도 괜찮은가?
 5. Artifact Registry 저장소 이름은 `notiflex`로 확정할까?
 
 ## Related Documents
@@ -373,3 +383,4 @@ curl -X POST http://localhost:8080/v1/events \
 | Version | Date | Changes | Author |
 |---------|------|---------|--------|
 | 0.1 | 2026-09-19 | 초기 설계 작성 | Codex |
+| 0.2 | 2026-09-19 | 구현 결과에 맞춰 앱 버전과 1노드 배포 전략 갱신 | Codex |

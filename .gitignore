@@ -1,0 +1,47 @@
+# macOS
+.DS_Store
+
+# Editor and local tooling
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+*.p12
+*.json.key
+service-account*.json
+
+# GCP and Kubernetes local credentials
+kubeconfig
+*.kubeconfig
+.kube/
+.config/gcloud/
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraform.lock.hcl
+
+# Build outputs
+bin/
+dist/
+build/
+out/
+coverage/
+
+# Logs
+*.log
+logs/

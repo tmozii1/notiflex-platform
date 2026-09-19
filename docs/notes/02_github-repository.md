@@ -55,7 +55,37 @@ GitHub에 공개 저장소를 만들고, 현재 로컬 저장소를 `origin` 원
 ```bash
 git remote -v
 git status --short --branch
-gh repo view tmozii1/notiflex-platform --web
+gh repo view tmozii1/notiflex-platform --json nameWithOwner,visibility,url,defaultBranchRef
 ```
 
 원격 저장소 연결, 로컬 브랜치 상태, GitHub 저장소 접근을 확인한다.
+
+## 생성 결과
+
+- 저장소 URL: `https://github.com/tmozii1/notiflex-platform`
+- 공개 여부: `PUBLIC`
+- 기본 브랜치: `main`
+- 원격 이름: `origin`
+- 원격 주소: `git@github.com:tmozii1/notiflex-platform.git`
+
+첫 커밋:
+
+```text
+c22f75b chore: initialize notiflex platform practice
+```
+
+첫 커밋에 포함된 파일:
+
+- `.gitignore`
+- `AGENTS.md`
+- `README.md`
+- `docs/notes/01_gcp-environment.md`
+- `docs/notes/02_github-repository.md`
+
+## 다음에 필요한 절차
+
+1. 장별 실습을 진행할 때마다 의미 있는 단위로 커밋한다.
+2. 새 프로젝트 문서는 `docs/` 아래에 만들고, 파일명은 다음 번호인 `03_`부터 사용한다.
+3. GKE 실습 전에 Kubernetes Engine API(`container.googleapis.com`)를 활성화한다.
+4. 컨테이너 이미지를 올리기 전에 Artifact Registry 저장소를 서울 리전에 생성한다.
+5. 비용이 발생하는 GCP 리소스 생성 전에는 `gcloud config list`로 프로젝트와 리전을 확인한다.

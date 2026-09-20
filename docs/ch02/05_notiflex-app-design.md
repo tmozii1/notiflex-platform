@@ -82,7 +82,7 @@ Pod: Go HTTP Server
 │       ├── deployment.yaml
 │       └── service.yaml
 └── docs/
-    └── architecture/
+    └── ch02/
         └── 05_notiflex-app-design.md
 ```
 
@@ -374,9 +374,9 @@ curl -X POST http://localhost:8080/v1/events \
 
 ## Related Documents
 
-- [GCP 기본 환경 설정](../notes/01_gcp-environment.md)
-- [GKE 클러스터 생성](../notes/03_gke-cluster.md)
-- [GKE Spot VM 노드풀 전략](../decisions/04_gke-spot-nodepool-strategy.md)
+- [GCP 기본 환경 설정](01_gcp-environment.md)
+- [GKE 클러스터 생성](03_gke-cluster.md)
+- [GKE Spot VM 노드풀 전략](04_gke-spot-nodepool-strategy.md)
 
 ## Version History
 

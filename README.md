@@ -36,6 +36,8 @@
 ├── AGENTS.md
 ├── README.md
 ├── docs/
+│   ├── ch02/
+│   └── ch03/
 ├── app/
 ├── deploy/
 │   ├── k8s/
@@ -48,19 +50,18 @@
 
 프로젝트 진행 중 생성되는 문서는 `docs/` 폴더에 둡니다.
 
-- `docs/notes/`: 장별 학습 노트, 명령어 메모, 실습 요약
-- `docs/decisions/`: 아키텍처 결정 기록
-- `docs/runbooks/`: 운영 절차, 장애 대응, 복구 방법
-- `docs/architecture/`: 시스템 구조, 인프라 구성, 다이어그램
+- 문서는 `docs/ch02/`, `docs/ch03/`처럼 장별 폴더에 정리합니다.
+- `architecture`, `decisions`, `notes` 같은 유형별 폴더로 나누지 않습니다.
+- 각 장에서 만든 설계, 결정 기록, 학습 노트, 운영 절차는 모두 해당 장 폴더에 둡니다.
 
 문서 파일명은 생성 순서를 알 수 있도록 `01_`, `02_`, `03_` 형식의 번호를 앞에 붙입니다.
 
 예시:
 
 ```text
-docs/notes/01_gcp-environment.md
-docs/decisions/02_gke-cluster-strategy.md
-docs/runbooks/03_artifact-registry-push.md
+docs/ch02/01_gcp-environment.md
+docs/ch02/05_notiflex-app-design.md
+docs/ch03/07_argocd-installation.md
 ```
 
 비밀번호, 토큰, 서비스 계정 키, kubeconfig, `.env` 파일은 저장소에 커밋하지 않습니다.

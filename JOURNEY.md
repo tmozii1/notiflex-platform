@@ -177,7 +177,7 @@ kubectl get nodes
 설계 문서:
 
 ```text
-docs/architecture/05_notiflex-app-design.md
+docs/ch02/05_notiflex-app-design.md
 ```
 
 초기 엔드포인트:
@@ -338,15 +338,16 @@ curl -i -X POST http://127.0.0.1:18084/v1/events \
 
 ## 현재까지의 주요 문서
 
-프로젝트 문서는 `docs/` 아래에 생성 순서 번호를 붙여 관리한다.
+프로젝트 문서는 `docs/` 아래에 장별 폴더를 만들고 생성 순서 번호를 붙여 관리한다.
 
 ```text
-docs/notes/01_gcp-environment.md
-docs/notes/02_github-repository.md
-docs/notes/03_gke-cluster.md
-docs/decisions/04_gke-spot-nodepool-strategy.md
-docs/architecture/05_notiflex-app-design.md
-docs/notes/06_notiflex-app-implementation.md
+docs/ch02/01_gcp-environment.md
+docs/ch02/02_github-repository.md
+docs/ch02/03_gke-cluster.md
+docs/ch02/04_gke-spot-nodepool-strategy.md
+docs/ch02/05_notiflex-app-design.md
+docs/ch02/06_notiflex-app-implementation.md
+docs/ch02/07_ch02-handoff.md
 ```
 
 ## 중요한 학습 메모

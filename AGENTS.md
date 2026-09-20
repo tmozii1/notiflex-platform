@@ -62,10 +62,9 @@ Obsidian의 책 목차 문서를 학습 로드맵과 진행 상황의 기준으�
 ├── AGENTS.md
 ├── README.md
 ├── docs/
-│   ├── decisions/
-│   ├── runbooks/
-│   ├── notes/
-│   └── architecture/
+│   ├── ch02/
+│   ├── ch03/
+│   └── ch04/
 ├── app/
 ├── deploy/
 │   ├── k8s/
@@ -80,10 +79,10 @@ Obsidian의 책 목차 문서를 학습 로드맵과 진행 상황의 기준으�
 
 프로젝트 관련 문서는 `docs/`를 사용한다.
 
-- `docs/notes/`: 장별 학습 노트, 명령어 메모, 실습 요약
-- `docs/decisions/`: 아키텍처 결정 기록
-- `docs/runbooks/`: 운영 절차와 복구 단계
-- `docs/architecture/`: 다이어그램, 시스템 설명, 인프라 구성
+- 문서는 `architecture`, `decisions`, `notes` 같은 유형별 폴더로 나누지 않는다.
+- 장별 폴더를 기준으로 정리한다. 예: `docs/ch02/`, `docs/ch03/`, `docs/ch04/`
+- 각 장에서 만든 설계, 결정 기록, 학습 노트, 운영 절차는 모두 해당 장 폴더에 둔다.
+- 장을 마무리할 때 해당 장 폴더 안의 신규 문서와 변경 문서를 확인하고 `README.md`, `JOURNEY.md` 등 루트 문서의 참조도 함께 갱신한다.
 
 문서 파일명은 생성 순서를 알 수 있도록 전역 증가 번호를 앞에 붙인다.
 
@@ -92,6 +91,14 @@ Obsidian의 책 목차 문서를 학습 로드맵과 진행 상황의 기준으�
 - 세 번째 문서: `03_...md`
 
 번호는 `docs/` 전체를 기준으로 이어간다. 하위 폴더별로 다시 `01_`부터 시작하지 않는다. 새 문서를 만들기 전에는 `find docs -type f` 등으로 가장 큰 번호를 확인하고 다음 번호를 사용한다.
+
+예시:
+
+```text
+docs/ch02/01_gcp-environment.md
+docs/ch02/05_notiflex-app-design.md
+docs/ch03/07_argocd-installation.md
+```
 
 작업 중 운영 지식이 생기면 문서를 새로 만들거나 갱신한다. 예시는 다음과 같다.
 

@@ -79,13 +79,13 @@ c22f75b chore: initialize notiflex platform practice
 - `.gitignore`
 - `AGENTS.md`
 - `README.md`
-- `docs/notes/01_gcp-environment.md`
-- `docs/notes/02_github-repository.md`
+- `docs/ch02/01_gcp-environment.md`
+- `docs/ch02/02_github-repository.md`
 
 ## 다음에 필요한 절차
 
 1. 장별 실습을 진행할 때마다 의미 있는 단위로 커밋한다.
-2. 새 프로젝트 문서는 `docs/` 아래에 만들고, 파일명은 다음 번호인 `03_`부터 사용한다.
+2. 새 프로젝트 문서는 해당 장 폴더 아래에 만들고, 파일명은 다음 번호인 `03_`부터 사용한다.
 3. GKE 실습 전에 Kubernetes Engine API(`container.googleapis.com`)를 활성화한다.
 4. 컨테이너 이미지를 올리기 전에 Artifact Registry 저장소를 서울 리전에 생성한다.
 5. 비용이 발생하는 GCP 리소스 생성 전에는 `gcloud config list`로 프로젝트와 리전을 확인한다.

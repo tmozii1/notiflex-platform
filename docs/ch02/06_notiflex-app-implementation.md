@@ -2,7 +2,7 @@
 
 ## 목표
 
-`docs/architecture/05_notiflex-app-design.md` 설계를 기준으로 Notiflex API 서버를 구현하고 GKE 클러스터 `notiflex-dev`에 배포한다.
+`docs/ch02/05_notiflex-app-design.md` 설계를 기준으로 Notiflex API 서버를 구현하고 GKE 클러스터 `notiflex-dev`에 배포한다.
 
 ## 생성한 파일
 

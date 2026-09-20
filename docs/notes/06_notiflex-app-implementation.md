@@ -295,6 +295,55 @@ curl -s -i -X POST http://localhost:18083/v1/events \
 POST /v1/events -> 202 Accepted
 ```
 
+## 매니페스트 재적용 확인
+
+2026-09-20에 2.6.4 흐름으로 Namespace, Deployment, Service 매니페스트를 다시 적용하고 동작을 확인했다.
+
+적용 전 확인:
+
+```bash
+gcloud config list
+kubectl config current-context
+kubectl get nodes
+kubectl apply --dry-run=client -f deploy/k8s/
+```
+
+실제 적용:
+
+```bash
+kubectl apply -f deploy/k8s/
+kubectl rollout status deployment/notiflex-api -n notiflex --timeout=120s
+kubectl get deploy,rs,pods,svc -n notiflex -o wide
+```
+
+결과:
+
+- 매니페스트는 이미 적용된 상태라 `unchanged`로 확인되었다.
+- Deployment rollout은 정상 완료되었다.
+- Pod는 `1/1 Running` 상태였다.
+- Service는 `ClusterIP`이며 `80 -> 8080`으로 연결된다.
+
+동작 확인:
+
+```bash
+kubectl port-forward -n notiflex svc/notiflex-api 18084:80
+curl -i http://localhost:18084/
+curl -i http://localhost:18084/healthz
+curl -i http://localhost:18084/readyz
+curl -i -X POST http://localhost:18084/v1/events \
+  -H 'Content-Type: application/json' \
+  -d '{"type":"signup","recipient":"demo@example.com","channel":"email"}'
+kubectl logs -n notiflex deploy/notiflex-api --tail=12
+```
+
+확인 결과:
+
+- `/`: `200 OK`, 버전 `v0.1.1`
+- `/healthz`: `200 OK`
+- `/readyz`: `200 OK`
+- `POST /v1/events`: `202 Accepted`
+- Pod 로그에 이벤트 수신 로그가 기록됨
+
 ## 서브에이전트 리뷰 반영
 
 서브에이전트가 구현 전/중 체크리스트를 제공했다. 반영한 주요 항목:

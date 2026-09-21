@@ -17,6 +17,7 @@ tags:
 related:
   - "[[08_argocd-installation]]"
   - "[[08_argocd-installation_detail]]"
+  - "[[10_ch03-handoff]]"
   - "[[JOURNEY]]"
 ---
 
@@ -26,6 +27,7 @@ related:
 
 - ArgoCD 설치: [[08_argocd-installation]]
 - ArgoCD 상세 개념: [[08_argocd-installation_detail]]
+- 3장 마감 handoff: [[10_ch03-handoff]]
 - 전체 진행 기록: [[JOURNEY]]
 
 ## 목표
@@ -204,14 +206,18 @@ image: asia-northeast3-docker.pkg.dev/tim-gitaiops-project/notiflex/notiflex-api
 
 GitHub Actions는 GKE 클러스터 권한을 갖지 않는다. 클러스터 배포는 ArgoCD가 Git 변경을 감지해 수행한다.
 
-## 다음 작업
+## 검증 결과
 
-다음 단계에서는 앱 코드를 한 번 더 수정해 전체 자동화 흐름을 테스트한다.
+워크플로를 `main` 브랜치에 push한 뒤 전체 자동화 흐름을 검증했다.
 
 ```text
-code push
-  -> GitHub Actions build
-  -> manifest commit
-  -> ArgoCD sync
-  -> GKE rollout
+GitHub Actions run: 35609986846
+Status: completed / success
+Manifest commit: a38ce49 chore: deploy notiflex-api git-186ebf3
+ArgoCD: Synced / Healthy
+Image: asia-northeast3-docker.pkg.dev/tim-gitaiops-project/notiflex/notiflex-api:git-186ebf3
 ```
+
+문서만 변경해서 push하는 경우에는 GitHub Actions가 실행되지 않는다. 현재 workflow는 `app/**` 또는 workflow 파일 변경에만 반응한다.
+
+ArgoCD는 `deploy/k8s` 경로를 배포 기준으로 보고 있으므로, 문서만 변경된 커밋은 Kubernetes 리소스 변경이나 rollout을 만들지 않는다.

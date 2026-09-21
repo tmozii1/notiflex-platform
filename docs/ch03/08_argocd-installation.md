@@ -19,6 +19,7 @@ related:
   - "[[06_notiflex-app-implementation]]"
   - "[[08_argocd-installation_detail]]"
   - "[[09_github-actions-ci]]"
+  - "[[10_ch03-handoff]]"
 ---
 
 # ArgoCD 설치와 GitOps 연결
@@ -30,6 +31,7 @@ related:
 - 직전 배포 기록: [[06_notiflex-app-implementation]]
 - 설치 상세 개념: [[08_argocd-installation_detail]]
 - 다음 CI 구성: [[09_github-actions-ci]]
+- 3장 마감 handoff: [[10_ch03-handoff]]
 
 ## 목표
 

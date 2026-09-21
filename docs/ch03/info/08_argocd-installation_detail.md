@@ -5,7 +5,7 @@ aliases:
   - "ArgoCD Pod 역할"
 chapter: "ch03"
 type: "detail"
-status: "draft"
+status: "done"
 created: 2026-09-21
 updated: 2026-09-21
 tags:
@@ -34,6 +34,8 @@ related:
 이 문서는 3.2 ArgoCD 설치 실습 중 헷갈렸던 개념을 나중에 다시 보기 위해 정리한 보충 문서다.
 
 실습을 끝까지 진행한 뒤 처음부터 다시 복습할 때, 여기의 용어와 구조를 다시 확인한다.
+
+3장 마감 시점부터는 이 클러스터에서 직접 `kubectl apply`와 `kubectl delete`를 사용하지 않는다. 아래 설치 명령은 ArgoCD를 처음 도입할 때 실제로 사용한 역사적 기록이고, 이후 Kubernetes 리소스 변경은 Git 변경과 ArgoCD 동기화로 반영한다.
 
 ## 설치 명령의 의미
 

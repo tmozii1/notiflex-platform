@@ -124,6 +124,9 @@ docs/ch03/07_argocd-installation.md
 - 파괴적이거나 비용에 영향을 줄 수 있는 작업은 실행 전에 정확한 명령을 보여준다.
 - GCP/GKE 변경 전 활성 계정, 프로젝트, 리전, 클러스터 컨텍스트를 확인한다.
 - 가능하면 `dry-run`, `describe`, `diff`, `plan` 성격의 명령을 먼저 사용한다.
+- 이 클러스터에서는 `kubectl delete`를 직접 실행하지 않는다. 리소스 제거가 필요하면 Git에서 선언 상태를 변경하고 ArgoCD의 prune 흐름으로 반영한다.
+- Kubernetes 리소스 변경은 `kubectl apply`로 직접 적용하지 않는다. 항상 Git에 매니페스트를 반영하고 ArgoCD가 배포하게 한다.
+- Kubernetes 매니페스트, ArgoCD Application, GCP 인프라처럼 실행 환경을 바꾸는 변경은 적용 전에 항상 diff를 먼저 보여준다.
 - 사용자가 명시적으로 요청하지 않는 한 클라우드 리소스, 네임스페이스, 클러스터, 디스크, 레지스트리, 시크릿을 삭제하지 않는다.
 - `delete`, `destroy`, `rm`, `reset`, 인증 정보 변경이 포함된 명령은 고위험 작업으로 다룬다.
 

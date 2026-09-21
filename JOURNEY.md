@@ -16,6 +16,7 @@ related:
   - "[[07_ch02-handoff]]"
   - "[[08_argocd-installation]]"
   - "[[09_github-actions-ci]]"
+  - "[[10_ch03-handoff]]"
 ---
 
 # Notiflex 실습 여정
@@ -46,6 +47,7 @@ https://github.com/tmozii1/notiflex-platform
 - 2장 마감 handoff: [[07_ch02-handoff]]
 - 3장 ArgoCD 설치: [[08_argocd-installation]]
 - 3장 GitHub Actions CI: [[09_github-actions-ci]]
+- 3장 마감 handoff: [[10_ch03-handoff]]
 - GitHub 공개 개요 문서: `README.md`
 
 ## 현재 상태 요약
@@ -57,8 +59,9 @@ https://github.com/tmozii1/notiflex-platform
 - Artifact Registry 저장소: `notiflex`
 - GKE 클러스터: `notiflex-dev`
 - Kubernetes 네임스페이스: `notiflex`
-- 앱 이미지: `asia-northeast3-docker.pkg.dev/tim-gitaiops-project/notiflex/notiflex-api:v0.1.1`
-- 배포 방식: Kubernetes `Deployment` + `ClusterIP Service`
+- 앱 이미지: `asia-northeast3-docker.pkg.dev/tim-gitaiops-project/notiflex/notiflex-api:git-186ebf3`
+- 앱 버전: `git-186ebf3`
+- 배포 방식: GitHub Actions CI + ArgoCD GitOps + Kubernetes `Deployment` + `ClusterIP Service`
 - 외부 노출 방식: 현재는 `kubectl port-forward`로만 검증
 
 현재 Notiflex API는 GKE 클러스터 안에서 실행 중이며, 로컬에서 포트 포워딩으로 정상 응답을 확인했다.
@@ -378,6 +381,7 @@ docs/ch02/06_notiflex-app-implementation.md
 docs/ch02/07_ch02-handoff.md
 docs/ch03/08_argocd-installation.md
 docs/ch03/09_github-actions-ci.md
+docs/ch03/10_ch03-handoff.md
 docs/ch03/info/08_argocd-installation_detail.md
 ```
 
@@ -435,6 +439,64 @@ GitHub Actions: 테스트, 이미지 빌드, 이미지 push, deployment.yaml 갱
 ArgoCD: Git 변경 감지, Kubernetes 배포, Sync/Health 감시
 ```
 
+## 3.5 CI + ArgoCD 연결 검증
+
+GitHub Actions workflow를 커밋하고 `main` 브랜치에 push한 뒤 전체 파이프라인이 동작하는지 확인했다.
+
+진행된 커밋:
+
+```text
+186ebf3 chore: add github actions ci for notiflex
+a38ce49 chore: deploy notiflex-api git-186ebf3
+```
+
+GitHub Actions run:
+
+```text
+Workflow: Notiflex API CI
+Run ID: 35609986846
+Status: completed / success
+```
+
+확인된 흐름:
+
+```text
+push
+  -> GitHub Actions 테스트 성공
+  -> Docker 이미지 빌드 성공
+  -> Artifact Registry push 성공
+  -> deployment.yaml 이미지 태그 자동 갱신
+  -> GitHub Actions bot 커밋 생성
+  -> ArgoCD 자동 sync
+  -> GKE rollout 성공
+```
+
+현재 ArgoCD 상태:
+
+```text
+Application: notiflex-api
+Sync Status: Synced
+Health Status: Healthy
+Revision: a38ce49751c54367770ab28a4de185452f712d05
+Image: asia-northeast3-docker.pkg.dev/tim-gitaiops-project/notiflex/notiflex-api:git-186ebf3
+```
+
+서비스 응답:
+
+```json
+{"service":"notiflex-api","version":"git-186ebf3","environment":"dev","status":"running"}
+```
+
+## 3.6 운영 지침 추가
+
+3장 마무리로 GitOps 운영 규칙을 `AGENTS.md`에 추가했다.
+
+추가한 원칙:
+
+- 이 클러스터에서는 `kubectl delete`를 직접 실행하지 않는다.
+- Kubernetes 리소스 변경은 `kubectl apply`로 직접 적용하지 않고 Git 변경과 ArgoCD 동기화로 반영한다.
+- Kubernetes 매니페스트, ArgoCD Application, GCP 인프라 변경은 적용 전에 항상 diff를 먼저 보여준다.
+
 ## 중요한 학습 메모
 
 ### 공개 저장소에 올려도 되는 정보와 안 되는 정보
@@ -480,10 +542,10 @@ Cloud Build는 GCP 관리 환경에서 이미지를 빌드하고 Artifact Regist
 
 다음 실습에서 이어갈 수 있는 작업:
 
-1. 책 2.6.3 흐름에 맞춰 Cloud Build 방식으로 이미지 빌드와 푸시를 다시 실습한다.
-2. Obsidian 목차에서 완료한 항목을 체크하고 현재 진행 메모를 갱신한다.
-3. 사용자가 요청하면 현재 변경 사항을 commit/push한다.
-4. 3.3장에서 Git push만으로 Notiflex 배포가 이어지는지 확인한다.
+1. 4장에서 Prometheus, Grafana, Loki, Fluent Bit 기반 관측 가능성 구성을 시작한다.
+2. 관측 가능성 도구도 가능하면 Git 변경과 ArgoCD 동기화 흐름으로 설치한다.
+3. 변경 전에는 diff를 먼저 확인한다.
+4. 사용자가 요청하면 현재 변경 사항을 push한다.
 5. GKE 클러스터를 재생성할 시점에 Spot VM 2노드 구성을 적용한다.
 
 ## 현재 작업 원칙
@@ -491,4 +553,7 @@ Cloud Build는 GCP 관리 환경에서 이미지를 빌드하고 Artifact Regist
 - 클라우드 리소스 변경 전 `gcloud auth list`, `gcloud config list`로 계정과 프로젝트를 확인한다.
 - Kubernetes 변경 전 `kubectl config current-context`, `kubectl get nodes`로 대상 클러스터를 확인한다.
 - 삭제, 재생성, 비용 증가 가능성이 있는 작업은 실행 전에 명령어를 먼저 설명한다.
+- 이 클러스터에서는 직접 `kubectl delete`를 실행하지 않는다.
+- Kubernetes 리소스 변경은 직접 `kubectl apply`하지 않고 Git 변경과 ArgoCD 동기화로 반영한다.
+- 변경 전에는 항상 diff를 먼저 확인한다.
 - `git commit`, `git push`는 사용자가 명시적으로 요청할 때만 진행한다.

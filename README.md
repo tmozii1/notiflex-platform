@@ -61,16 +61,27 @@
 ```text
 docs/ch02/01_gcp-environment.md
 docs/ch02/05_notiflex-app-design.md
-docs/ch03/07_argocd-installation.md
+docs/ch03/08_argocd-installation.md
+docs/ch03/09_github-actions-ci.md
+docs/ch03/10_ch03-handoff.md
 ```
 
 비밀번호, 토큰, 서비스 계정 키, kubeconfig, `.env` 파일은 저장소에 커밋하지 않습니다.
 
 ## 현재 상태
 
-- gcloud CLI 설치 완료
-- 프로젝트 루트 가드레일 문서 `AGENTS.md` 작성
-- GitHub 공개용 `README.md` 작성
+- 2장 환경 구성과 첫 Notiflex API GKE 배포 완료
+- 3장 ArgoCD 기반 GitOps 배포 전환 완료
+- GitHub Actions로 테스트, 이미지 빌드, Artifact Registry push, 매니페스트 이미지 태그 갱신 자동화 완료
+- ArgoCD가 Git 변경을 감지해 GKE에 자동 배포하는 흐름 검증 완료
+- 현재 배포 이미지: `asia-northeast3-docker.pkg.dev/tim-gitaiops-project/notiflex/notiflex-api:git-186ebf3`
+
+현재 역할 분리는 다음과 같습니다.
+
+```text
+GitHub Actions: 테스트, 이미지 빌드, 이미지 push, deployment.yaml 갱신
+ArgoCD: Git 변경 감지, Kubernetes 배포, Sync/Health 감시
+```
 
 ## 작업 방식
 

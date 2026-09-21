@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
         - name: notiflex-api
-          image: asia-northeast3-docker.pkg.dev/tim-gitaiops-project/notiflex/notiflex-api:v0.2.0
+          image: asia-northeast3-docker.pkg.dev/tim-gitaiops-project/notiflex/notiflex-api:git-186ebf3
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
@@ -33,7 +33,7 @@ spec:
             - name: PORT
               value: "8080"
             - name: APP_VERSION
-              value: "v0.2.0"
+              value: "git-186ebf3"
             - name: APP_ENV
               value: "dev"
           livenessProbe:

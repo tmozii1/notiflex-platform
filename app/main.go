@@ -19,15 +19,17 @@ import (
 
 const (
 	defaultPort    = "8080"
-	defaultVersion = "v0.1.1"
+	defaultVersion = "v0.2.0"
+	defaultEnv     = "dev"
 	serviceName    = "notiflex-api"
 )
 
 var eventSequence uint64
 
 type server struct {
-	version string
-	logger  *slog.Logger
+	version     string
+	environment string
+	logger      *slog.Logger
 }
 
 type eventRequest struct {
@@ -47,20 +49,30 @@ type errorResponse struct {
 	Error string `json:"error"`
 }
 
+type versionResponse struct {
+	Service     string `json:"service"`
+	Version     string `json:"version"`
+	Environment string `json:"environment"`
+	Status      string `json:"status"`
+}
+
 func main() {
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
 	port := envOrDefault("PORT", defaultPort)
 	version := envOrDefault("APP_VERSION", defaultVersion)
+	environment := envOrDefault("APP_ENV", defaultEnv)
 
 	api := &server{
-		version: version,
-		logger:  logger,
+		version:     version,
+		environment: environment,
+		logger:      logger,
 	}
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", api.handleRoot)
 	mux.HandleFunc("/healthz", api.handleHealthz)
 	mux.HandleFunc("/readyz", api.handleReadyz)
+	mux.HandleFunc("/version", api.handleVersion)
 	mux.HandleFunc("/v1/events", api.handleEvents)
 
 	httpServer := &http.Server{
@@ -70,7 +82,7 @@ func main() {
 	}
 
 	go func() {
-		logger.Info("starting server", "service", serviceName, "version", version, "port", port)
+		logger.Info("starting server", "service", serviceName, "version", version, "environment", environment, "port", port)
 		if err := httpServer.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 			logger.Error("server failed", "error", err)
 			os.Exit(1)
@@ -123,6 +135,20 @@ func (s *server) handleReadyz(w http.ResponseWriter, r *http.Request) {
 	}
 
 	writeJSON(w, http.StatusOK, map[string]string{"status": "ready"})
+}
+
+func (s *server) handleVersion(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		writeError(w, http.StatusMethodNotAllowed, "method not allowed")
+		return
+	}
+
+	writeJSON(w, http.StatusOK, versionResponse{
+		Service:     serviceName,
+		Version:     s.version,
+		Environment: s.environment,
+		Status:      "running",
+	})
 }
 
 func (s *server) handleEvents(w http.ResponseWriter, r *http.Request) {

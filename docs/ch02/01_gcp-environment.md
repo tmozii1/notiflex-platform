@@ -1,4 +1,29 @@
+---
+title: "GCP 기본 환경 설정"
+aliases:
+  - "2장 GCP 환경"
+chapter: "ch02"
+type: "note"
+status: "done"
+created: 2026-09-19
+updated: 2026-09-21
+tags:
+  - notiflex
+  - ch02
+  - gcp
+  - environment
+related:
+  - "[[JOURNEY]]"
+  - "[[02_github-repository]]"
+---
+
 # GCP 기본 환경 설정
+
+## 연결 문서
+
+- 상위 진행 기록: [[JOURNEY]]
+- 다음 문서: [[02_github-repository]]
+- 2장 마감: [[07_ch02-handoff]]
 
 ## 기본값
 
@@ -8,7 +33,6 @@
 - gcloud 설정 이름: `default`
 
 ## 설정 명령
-
 ```bash
 gcloud config set project tim-gitaiops-project
 gcloud config set compute/region asia-northeast3

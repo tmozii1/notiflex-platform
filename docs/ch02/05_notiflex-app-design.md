@@ -1,13 +1,35 @@
+---
+title: "Notiflex 앱 빌드와 배포 설계"
+aliases:
+  - "2장 Notiflex 앱 설계"
+chapter: "ch02"
+type: "design"
+status: "done"
+level: "Starter"
+author: "Codex"
+created: 2026-09-19
+updated: 2026-09-21
+tags:
+  - notiflex
+  - ch02
+  - design
+  - gke
+  - go
+related:
+  - "[[03_gke-cluster]]"
+  - "[[04_gke-spot-nodepool-strategy]]"
+  - "[[06_notiflex-app-implementation]]"
+---
+
 # Notiflex 앱 빌드와 배포 설계
 
-> **Summary**: GKE에 배포할 최소 Notiflex Go API 서버와 컨테이너/Kubernetes 배포 구조를 정의한다.
->
-> **Author**: Codex
-> **Created**: 2026-09-19
-> **Status**: Draft
-> **Level**: Starter
+GKE에 배포할 최소 Notiflex Go API 서버와 컨테이너/Kubernetes 배포 구조를 정의한다.
 
----
+## 연결 문서
+
+- GKE 클러스터: [[03_gke-cluster]]
+- Spot VM 결정: [[04_gke-spot-nodepool-strategy]]
+- 구현과 배포 기록: [[06_notiflex-app-implementation]]
 
 ## 1. 배경
 

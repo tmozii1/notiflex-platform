@@ -1,4 +1,31 @@
+---
+title: "GKE Spot VM 노드풀 전략"
+aliases:
+  - "2장 Spot VM 결정"
+chapter: "ch02"
+type: "decision"
+status: "done"
+created: 2026-09-19
+updated: 2026-09-21
+tags:
+  - notiflex
+  - ch02
+  - gke
+  - decision
+  - spot-vm
+related:
+  - "[[03_gke-cluster]]"
+  - "[[05_notiflex-app-design]]"
+  - "[[07_ch02-handoff]]"
+---
+
 # GKE Spot VM 노드풀 전략
+
+## 연결 문서
+
+- 기준 클러스터 문서: [[03_gke-cluster]]
+- 다음 설계 문서: [[05_notiflex-app-design]]
+- 2장 마감: [[07_ch02-handoff]]
 
 ## 결정
 

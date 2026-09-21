@@ -1,4 +1,31 @@
+---
+title: "Notiflex 앱 구현과 GKE 배포"
+aliases:
+  - "2장 앱 구현"
+chapter: "ch02"
+type: "note"
+status: "done"
+created: 2026-09-19
+updated: 2026-09-21
+tags:
+  - notiflex
+  - ch02
+  - app
+  - deployment
+  - gke
+related:
+  - "[[05_notiflex-app-design]]"
+  - "[[07_ch02-handoff]]"
+  - "[[JOURNEY]]"
+---
+
 # Notiflex 앱 구현과 GKE 배포
+
+## 연결 문서
+
+- 기준 설계: [[05_notiflex-app-design]]
+- 2장 마감 handoff: [[07_ch02-handoff]]
+- 전체 진행 기록: [[JOURNEY]]
 
 ## 목표
 

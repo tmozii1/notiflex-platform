@@ -1,4 +1,29 @@
+---
+title: "2장 마감 Handoff"
+aliases:
+  - "2장 인수인계"
+chapter: "ch02"
+type: "handoff"
+status: "done"
+created: 2026-09-20
+updated: 2026-09-21
+tags:
+  - notiflex
+  - ch02
+  - handoff
+  - gitops-ready
+related:
+  - "[[JOURNEY]]"
+  - "[[06_notiflex-app-implementation]]"
+---
+
 # 2장 마감 Handoff
+
+## 연결 문서
+
+- 전체 진행 기록: [[JOURNEY]]
+- 직전 배포 기록: [[06_notiflex-app-implementation]]
+- GitHub 공개 개요 문서: `README.md`
 
 ## 현재 위치
 

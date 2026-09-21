@@ -1,3 +1,23 @@
+---
+title: "Notiflex 실습 여정"
+aliases:
+  - "Notiflex Journey"
+chapter: "root"
+type: "journey"
+status: "active"
+created: 2026-09-20
+updated: 2026-09-21
+tags:
+  - notiflex
+  - infra-practice
+  - journey
+related:
+  - "[[01_gcp-environment]]"
+  - "[[07_ch02-handoff]]"
+  - "[[08_argocd-installation]]"
+  - "[[09_github-actions-ci]]"
+---
+
 # Notiflex 실습 여정
 
 이 문서는 Notiflex 인프라 구성/배포 실습을 진행하면서 실제로 수행한 작업, 사용한 명령어, 중간에 만난 문제와 해결 방법을 기록한다.
@@ -19,6 +39,14 @@ GitHub 원격 저장소는 다음과 같다.
 ```text
 https://github.com/tmozii1/notiflex-platform
 ```
+
+## 연결 문서
+
+- 2장 시작 문서: [[01_gcp-environment]]
+- 2장 마감 handoff: [[07_ch02-handoff]]
+- 3장 ArgoCD 설치: [[08_argocd-installation]]
+- 3장 GitHub Actions CI: [[09_github-actions-ci]]
+- GitHub 공개 개요 문서: `README.md`
 
 ## 현재 상태 요약
 
@@ -348,6 +376,63 @@ docs/ch02/04_gke-spot-nodepool-strategy.md
 docs/ch02/05_notiflex-app-design.md
 docs/ch02/06_notiflex-app-implementation.md
 docs/ch02/07_ch02-handoff.md
+docs/ch03/08_argocd-installation.md
+docs/ch03/09_github-actions-ci.md
+docs/ch03/info/08_argocd-installation_detail.md
+```
+
+## 3.2 ArgoCD 설치와 GitOps 연결
+
+3장에서는 푸시 기반 수동 배포의 한계를 확인하고, ArgoCD로 GitOps 배포 흐름을 시작했다.
+
+진행한 작업:
+
+- ArgoCD `v3.5.3` Non-HA 매니페스트 설치
+- `argocd` 네임스페이스 생성
+- ArgoCD Pod 전체 Ready 확인
+- `deploy/argocd/notiflex-application.yaml` 추가
+- GitHub 저장소 `deploy/k8s` 경로를 Notiflex API의 desired state로 연결
+- ArgoCD Application `notiflex-api`가 `Synced`, `Healthy` 상태임을 확인
+- ArgoCD UI를 port-forward로 확인
+
+현재 GitOps 기준:
+
+```text
+repoURL: https://github.com/tmozii1/notiflex-platform.git
+targetRevision: main
+path: deploy/k8s
+destination namespace: notiflex
+```
+
+## 3.4 GitHub Actions CI 구성
+
+GitHub Actions가 Notiflex API의 테스트, 이미지 빌드, Artifact Registry push, 매니페스트 이미지 태그 갱신을 담당하도록 워크플로를 추가했다.
+
+생성한 파일:
+
+```text
+.github/workflows/notiflex-api-ci.yml
+docs/ch03/09_github-actions-ci.md
+```
+
+구성한 인증:
+
+```text
+Workload Identity Pool: github-actions
+Provider: github
+Service Account: github-actions-notiflex@tim-gitaiops-project.iam.gserviceaccount.com
+GitHub repository variables:
+  - GCP_WORKLOAD_IDENTITY_PROVIDER
+  - GCP_SERVICE_ACCOUNT
+OIDC condition:
+  - assertion.repository == 'tmozii1/notiflex-platform' && assertion.ref == 'refs/heads/main'
+```
+
+역할 분리:
+
+```text
+GitHub Actions: 테스트, 이미지 빌드, 이미지 push, deployment.yaml 갱신
+ArgoCD: Git 변경 감지, Kubernetes 배포, Sync/Health 감시
 ```
 
 ## 중요한 학습 메모
@@ -398,7 +483,7 @@ Cloud Build는 GCP 관리 환경에서 이미지를 빌드하고 Artifact Regist
 1. 책 2.6.3 흐름에 맞춰 Cloud Build 방식으로 이미지 빌드와 푸시를 다시 실습한다.
 2. Obsidian 목차에서 완료한 항목을 체크하고 현재 진행 메모를 갱신한다.
 3. 사용자가 요청하면 현재 변경 사항을 commit/push한다.
-4. 3장으로 넘어가 ArgoCD 기반 GitOps 배포 구조를 만든다.
+4. 3.3장에서 Git push만으로 Notiflex 배포가 이어지는지 확인한다.
 5. GKE 클러스터를 재생성할 시점에 Spot VM 2노드 구성을 적용한다.
 
 ## 현재 작업 원칙

@@ -1,4 +1,30 @@
+---
+title: "GKE 클러스터 생성"
+aliases:
+  - "2장 GKE 클러스터"
+chapter: "ch02"
+type: "note"
+status: "done"
+created: 2026-09-19
+updated: 2026-09-21
+tags:
+  - notiflex
+  - ch02
+  - gke
+  - kubernetes
+related:
+  - "[[02_github-repository]]"
+  - "[[04_gke-spot-nodepool-strategy]]"
+  - "[[05_notiflex-app-design]]"
+---
+
 # GKE 클러스터 생성
+
+## 연결 문서
+
+- 이전 문서: [[02_github-repository]]
+- 관련 결정: [[04_gke-spot-nodepool-strategy]]
+- 다음 설계: [[05_notiflex-app-design]]
 
 ## 목표
 

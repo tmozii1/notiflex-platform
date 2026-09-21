@@ -1,4 +1,30 @@
+---
+title: "GitHub 저장소 생성 절차"
+aliases:
+  - "2장 GitHub 저장소"
+chapter: "ch02"
+type: "note"
+status: "done"
+created: 2026-09-19
+updated: 2026-09-21
+tags:
+  - notiflex
+  - ch02
+  - github
+  - git
+related:
+  - "[[01_gcp-environment]]"
+  - "[[03_gke-cluster]]"
+  - "[[JOURNEY]]"
+---
+
 # GitHub 저장소 생성 절차
+
+## 연결 문서
+
+- 이전 문서: [[01_gcp-environment]]
+- 다음 문서: [[03_gke-cluster]]
+- 상위 진행 기록: [[JOURNEY]]
 
 ## 목표
 
